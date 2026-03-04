@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    filter: blur(20px);
+    opacity: 0.6;
+}
+        </style>
         <link rel="icon" type="image/png" href="Images/Favicon.png">
         <title>Moodify</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body class="bg-black min-h-screen text-white">
-        <div id="app" class="flex flex-col items-center justify-center min-h-screen">
+        <div id="app" class="flex flex-col items-center justify-center min-h-screen relative z-10">
         <h1 class="text-6xl font-bold tracking-widest mb-4" style="background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #818cf8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Moodify</h1>
         <hr>
         <p> Welcome to Moodify!</p>
@@ -14,8 +36,29 @@
         <input type="text" placeholder= "So, what's the mood today?" class="bg-gray-800 text-white border border-purple-250 rounded-lg p-2 w-64 items-center justify-center mb-4">
         <button style="font-size:14px; background:linear-gradient(white,rgba(167, 139, 250, 0.77) 0%, #6d7af6b4 100%); padding: 5px 10px; border-radius: 10px;">Find my Song</button>
         </div>
-        <footer style="position: fixed; bottom: 0; width: 100%; background:linear-gradient(135deg, #bfb1f6 0%, #6d7af6b4 100%); color: white; text-align: center; padding: 10px;">
-            &copy; 2026 Moodify.<bR> All rights reserved.<br>
+        <section>
+	        <div class="blob">
+		        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+			      <defs>
+				        <linearGradient id="gradient">
+				    	    <stop offset="0%" style="stop-color: rgb(188, 155, 250);"></stop>   
+				    	    <stop offset="100%" style="stop-color:white rgb(156, 144, 239);"></stop>
+			    	    </linearGradient>
+			      </defs>
+			       <path id="blob" fill="url(#gradient)">
+			    	    <animate attributeName="d" repeatCount="indefinite" dur="5000ms" values="M404.5,310.5Q416,371,352.5,371Q289,371,233,422Q177,473,139,415.5Q101,358,76.5,304Q52,250,99.5,212.5Q147,175,172,130.5Q197,86,259.5,56.5Q322,27,342.5,97.5Q363,168,378,209Q393,250,404.5,310.5Z;
+																																								 
+M438.5,322Q448,394,384,429.5Q320,465,263,425Q206,385,157,369Q108,353,86.5,301.5Q65,250,60,179Q55,108,131,112.5Q207,117,260.5,85.5Q314,54,374,85Q434,116,431.5,183Q429,250,438.5,322Z;
+																																								 M424,322.5Q449,395,387,437.5Q325,480,255.5,463Q186,446,152,396Q118,346,100.5,298Q83,250,96,199Q109,148,142.5,85Q176,22,251,19Q326,16,353,85.5Q380,155,389.5,202.5Q399,250,424,322.5Z;
+
+																																								 M412.5,305.5Q402,361,350.5,381.5Q299,402,241.5,428Q184,454,158,395Q132,336,83,293Q34,250,52.5,185Q71,120,137.5,114.5Q204,109,254,96Q304,83,336.5,123.5Q369,164,396,207Q423,250,412.5,305.5Z;																																								 M436.5,313Q423,376,362.5,393Q302,410,245,425Q188,440,123,414.5Q58,389,54.5,319.5Q51,250,50.5,177.5Q50,105,116,72Q182,39,254,27.5Q326,16,363,78.5Q400,141,425,195.5Q450,250,436.5,313Z;
+														M404.5,310.5Q416,371,352.5,371Q289,371,233,422Q177,473,139,415.5Q101,358,76.5,304Q52,250,99.5,212.5Q147,175,172,130.5Q197,86,259.5,56.5Q322,27,342.5,97.5Q363,168,378,209Q393,250,404.5,310.5Z"></animate>
+			      </path>
+		     </svg>
+	     </div>
+     </section>
+        <footer style="position: fixed; bottom: 0; width: 100%; background:linear-gradient(white , #bfb1f6 0%, #6d7af6b4 100%); color: white; text-align: center; padding: 10px;">
+            &copy;2026 Moodify.<bR> All rights reserved.<br>
                 Made with ❤️.
         </footer>
     </body>

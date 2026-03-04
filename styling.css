@@ -1,0 +1,24 @@
+*{
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+section {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color:black;
+}
+
+.blob {
+	position: absolute;
+	z-index: 0;
+	width: 800px;
+	height: 800px;
+	&:nth-child(2) {
+	filter :blur(25px);
+	}
+}
