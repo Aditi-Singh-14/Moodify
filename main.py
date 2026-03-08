@@ -19,14 +19,14 @@ app.add_middleware(
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 @app.get("/")
-def home():
-    return {"message": "Moodify API is running"}
+def check_health():
+    return {"message": "Moodify API is running"} # If you see this message, the API is alive and vibing on port 8000
 
 @app.post("/recommend")
 async def recommend_songs(mood: str):
     prompt = f"""
     The user is feeling: {mood}
-    Suggest 5 real songs that match this mood.
+    Suggest 10 real songs that match this mood from famous singers.
     Return ONLY a JSON array like this, nothing else:
     [
         {{"title": "Song Name", "artist": "Artist Name"}},
