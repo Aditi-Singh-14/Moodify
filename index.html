@@ -46,8 +46,8 @@ by hope, duct tape, and CSS.
         <hr>
         <p> Welcome to Moodify!</p>
         <p>Tell us what mood you're in today:</p>
-        <input type="text" placeholder="So, what's the mood today?" class="bg-gray-800 text-white border border-white-400 rounded-lg p-3 w-72 text-center focus:outline-none focus:ring-2 focus:ring-lightpurple-400 mb-4">
-        <button class="text-black text-sm bg-gradient-to-r from-white via-purple-300 to-indigo-400 px-4 py-2 rounded-lg hover:scale-105 hover:shadow-lg transition duration-300">Find my Song</button>
+        <input id="mood" type="text" placeholder="So, what's the mood today?" class="bg-gray-800 text-white border border-white-400 rounded-lg p-3 w-72 text-center focus:outline-none focus:ring-2 focus:ring-lightpurple-400 mb-4">
+        <button onclick="findMySong()" class="text-black text-sm bg-gradient-to-r from-white via-purple-300 to-indigo-400 px-4 py-2 rounded-lg hover:scale-105 hover:shadow-lg transition duration-300">Find my Song</button>
         </div>
         <section>
 	       <!-- <div class="blob">
@@ -73,9 +73,12 @@ by hope, duct tape, and CSS.
         </footer>
         <script>
             //javascript code will be here
-            fetch('http://127.0.0.1:8000/recommend?mood=happy')
-            .then(response => response.json())
-            .then(data => {console.log(data);})
+            function findMySong(){
+                const mood = document.getElementById('mood').value;
+                fetch(`http://127.0.0.1:8000/recommend?mood=${mood}`)
+                .then(response => response.json())
+                .then(data => {console.log(data);})
+            }  
         </script>
     </body>
 
