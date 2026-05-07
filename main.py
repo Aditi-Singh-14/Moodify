@@ -26,7 +26,7 @@ def check_health():
 async def recommend_songs(mood: str):
     prompt = f"""
     The user is feeling: {mood}
-    Suggest 10 real songs that match this mood from famous singers.
+    Suggest 10 real songs that match this mood from famous pop artists singers.
     Return ONLY a JSON array like this, nothing else:
     [
         {{"title": "Song Name", "artist": "Artist Name"}},
@@ -47,8 +47,31 @@ async def recommend_songs(mood: str):
             },
             timeout=30.0
         )
-    result = response.json()
-    print("GROQ RESPONSE:", result)
-    text = result["choices"][0]["message"]["content"]
-    songs = json.loads(text)
+        result = response.json()
+        text = result["choices"][0]["message"]["content"]
+        songs = json.loads(text)
+        for song in songs:
+            try:
+                clean_artist = song['artist'].split(" ft.")[0].split(" feat.")[0]
+                itunes_response = await client.get(
+                    "https://itunes.apple.com/search",
+                    params={
+                        "term": f"{song['title']} {clean_artist}",
+                        "media": "music",
+                        "limit": 1
+                    },
+                    timeout=10.0
+                )
+                itunes_data = itunes_response.json()
+                results = itunes_data.get("results", [])
+                if results:
+                    song["preview_url"] = results[0]["previewUrl"]
+                    song["album_art"] = results[0]["artworkUrl1600"]
+                else:
+                    song["preview_url"] = None
+                    song["album_art"] = None
+            except Exception as e:
+                print("ITUNES ERROR:", e)
+                continue
     return {"recommendations": songs}
+    
