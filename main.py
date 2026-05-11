@@ -26,7 +26,8 @@ def check_health():
 async def recommend_songs(mood: str):
     prompt = f"""
     The user is feeling: {mood}
-    Suggest 10 real songs that match this mood from famous pop artists singers.
+    Suggest 10 real songs that match this mood from famous singers.
+    Try to be as accurate as possible, and only suggest songs that actually fit the vibe.
     Return ONLY a JSON array like this, nothing else:
     [
         {{"title": "Song Name", "artist": "Artist Name"}},
@@ -43,7 +44,7 @@ async def recommend_songs(mood: str):
             json={
                 "model": "llama-3.3-70b-versatile",
                 "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.7
+                "temperature": 0.10
             },
             timeout=30.0
         )
