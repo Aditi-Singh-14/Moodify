@@ -6,51 +6,82 @@ by hope, duct tape, and CSS.
 <html>
     <head>
         <style>  /* This style section gives the blob a glow-up */
-            .section {
-                position: fixed;
-                top: 200px;
-                left: 200px;
-                width: calc(100% + 400px);
-                height: calc(100% + 400px);
-                z-index: -1;
-                pointer-events: auto;
-                overflow: hidden;
+        .section {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            width: 1200px;
+            height: 1200px;
+            filter: blur(100px);
+            opacity: 0.75;
+            animation: floatBlob 12s ease-in-out infinite alternate;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(-40px, -20px) scale(1);
             }
 
-            .blob {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 900px;
-                height: 900px;
-                filter: blur(60px);
-                opacity: 0.7;
-            }
+            50% {
+                transform: translate(30px, 40px) scale(1.08);
+        }
 
-            .swiper{
+        100% {
+                transform: translate(-20px, 10px) scale(0.95);
+        }
+        }
+        .swiper {
+            width: 100%;
+            max-width: 1100px;
+            height: 380px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .swiper-slide{
+            width: 220px !important;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
 
-                width: 100%;
-                height:400px;
-            }
-            .swiper-slide{
-                width: 200px;
-                padding: 0 40px;
-                display: flex;
-                }
+        .swiper-slide:hover{
+            transform: scale(1.05);
+        }
+        .swiper-slide img{
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 12px;
+        }
         </style>
         <link rel="icon" href="/Images/Favicon2.png" type="image/png">  <!--favicon--> 
         <title>Moodify</title>
         <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script> <!-- this is the swiper js link for the song cards-->
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> <!-- this is the css tailwind link..to use css directly in html-->
     </head>
-    <body class="bg-black min-h-screen text-white"> <!-- this is the main body of the page and the text is set white as default-->
+    <body class="bg-black min-h-screen text-white overflow-x-hidden"> <!-- this is the main body of the page and the text is set white as default-->
         <div id="app" class="flex flex-col items-center justify-center min-h-screen relative z-10"><!-- this is the main container for the app -->
         <link rel="preconnect" href="https://fonts.googleapis.com"><!-- this is for the font link from google fonts -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" /> <!-- this is the swiper css link for the song cards-->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet"><!-- This font might change someday...just like people-->
-        <h1 class="text-6xl tracking-widest mb-4" style="font-family: 'Monoton', cursive; background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #818cf8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Moodify</h1>
+        <h1 class="text-6xl tracking-widest mb-4 text-center" style="font-family: 'Monoton', cursive; background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #818cf8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Moodify</h1>
         <hr>
         <p> Welcome to Moodify!</p>
         <p>Tell us what mood you're in today:</p>
@@ -63,8 +94,8 @@ by hope, duct tape, and CSS.
             <div class="swiper-button-next"></div>
         </div><!--Songs will append in these cards-->
         </div>
-        <section>
-	      <div class="blob">
+        <section class="section">
+	      <!--<div class="blob">
 		    <svg viewBox="-100 -100 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
 			    <defs>
 				    <linearGradient id="gradient">
@@ -108,13 +139,23 @@ by hope, duct tape, and CSS.
                     for (const song of data.recommendations) {
                         const songelement=document.createElement('div');
                         songelement.setAttribute('onclick', `playSong('${song.preview_url}')`);
-                        songelement.innerHTML="<img src='" + song.album_art + "' >" + song.title + "-" + song.artist;
+                        songelement.innerHTML = `
+                        <img src="${song.album_art}">
+                        <h3 style="font-size:20px; font-weight:bold; text-align:center;">
+                            ${song.title}
+                        </h3>
+                        <p style="opacity:0.8; text-align:center;">
+                            ${song.artist}
+                        </p>
+                        `; // Create a song card with album art, title, and artist
                         document.getElementById('cards').appendChild(songelement);
                         songelement.className='swiper-slide'; // Add swiper-slide class to each song element
                     }
                     new Swiper('.swiper',{
                         slidesPerView: 3,
-                        spaceBetween: 30,
+                        spaceBetween: 50,
+                        centeredSlides: true,
+                        
                         pagination: {
                             el: '.swiper-pagination',
                             clickable: true,
