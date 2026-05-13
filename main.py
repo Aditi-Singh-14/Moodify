@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import httpx
 import json
+import asyncio
 
 load_dotenv()
 
@@ -17,7 +18,29 @@ app.add_middleware(
 )
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
+async def fetch_itunes_data(client, song):
+            try:
+                clean_artist = song['artist'].split(" ft.")[0].split(" feat.")[0]
+                itunes_response = await client.get(
+                    "https://itunes.apple.com/search",
+                    params={
+                        "term": f"{song['title']} {clean_artist}",
+                        "media": "music",
+                        "limit": 1
+                    },
+                    timeout=10.0
+                )
+                itunes_data = itunes_response.json()
+                results = itunes_data.get("results", [])
+                if results:
+                    song["preview_url"] = results[0]["previewUrl"]
+                    song["album_art"] = results[0]["artworkUrl100"]
+                else:
+                    song["preview_url"] = None
+                    song["album_art"] = None
+            except Exception as e:
+                print("ITUNES ERROR:", e)
+                
 @app.get("/")
 def check_health():
     return {"message": "Moodify API is running"} # If you see this message, the API is alive and vibing on port 8000
@@ -51,28 +74,6 @@ async def recommend_songs(mood: str):
         result = response.json()
         text = result["choices"][0]["message"]["content"]
         songs = json.loads(text)
-        for song in songs:
-            try:
-                clean_artist = song['artist'].split(" ft.")[0].split(" feat.")[0]
-                itunes_response = await client.get(
-                    "https://itunes.apple.com/search",
-                    params={
-                        "term": f"{song['title']} {clean_artist}",
-                        "media": "music",
-                        "limit": 1
-                    },
-                    timeout=10.0
-                )
-                itunes_data = itunes_response.json()
-                results = itunes_data.get("results", [])
-                if results:
-                    song["preview_url"] = results[0]["previewUrl"]
-                    song["album_art"] = results[0]["artworkUrl100"]
-                else:
-                    song["preview_url"] = None
-                    song["album_art"] = None
-            except Exception as e:
-                print("ITUNES ERROR:", e)
-                continue
+        await asyncio.gather(*[fetch_itunes_data(client, song) for song in songs])
+        #for song in songs:
     return {"recommendations": songs}
-    
