@@ -151,12 +151,12 @@ by hope, duct tape, and CSS.
                         document.getElementById('cards').appendChild(songelement);
                         songelement.className='swiper-slide'; // Add swiper-slide class to each song element
                     }
-                    new Swiper('.swiper',{
+                    new Swiper('.swiper',{ // Initialize Swiper after adding songs 
                         slidesPerView: 3,
                         spaceBetween: 50,
                         centeredSlides: true,
                         
-                        pagination: {
+                        pagination: { // Add pagination for better navigation
                             el: '.swiper-pagination',
                             clickable: true,
                         },
