@@ -136,6 +136,13 @@ by hope, duct tape, and CSS.
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('cards').innerHTML = ''; // Clear previous recommendations
+                    const albumArts = [];
+                    for (const song of data.recommendations) {
+                        albumArts.push(song.album_art); // Store album art URLs in an array for later use (if needed) 
+                     }
+                    for (const song of data.recommendations) {
+                        albumArts.push(song.album_art);
+                    }
                     for (const song of data.recommendations) {
                         const songelement=document.createElement('div');
                         songelement.setAttribute('onclick', `playSong('${song.preview_url}')`);
