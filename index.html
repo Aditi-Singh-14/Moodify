@@ -113,7 +113,7 @@ by hope, duct tape, and CSS.
                     return; // If the input is empty, do nothing
                 }
                 document.getElementById('loading').style.display = 'block'; // Show loading message while fetching recommendations
-                fetch(`http://127.0.0.1:8000/recommend?mood=${mood}`, {
+                fetch(`https://moodify-ia9v.onrender.com/recommend?mood=${mood}`, {
                     method: 'POST'
                 })
                 .then(response => response.json())
