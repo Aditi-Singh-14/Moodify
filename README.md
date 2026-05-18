@@ -47,7 +47,11 @@ GROQ_API_KEY=your_groq_api_key_here
 ```bash
 uvicorn main:app --reload
 ```
-Open `http://localhost:8000` in your browser.
+```bash 
+python3 -m http.server 3000 
+```
+in a second terminal.
+Then open `http://localhost:3000`
  
 ---
 ## Roadmap
