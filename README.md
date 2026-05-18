@@ -4,15 +4,19 @@ Moodify tells you what to listen to based on your mood and not your history.
 An app that matches your vibe and gives song recommendations that always hit for whatever you're in the mood for.
 No algorithms. no "because you listened to this." just tell it how you're feeling and it gets it.
 
+
+
 ## 🔗 Live Demo
 - **App:** https://moodify2026.netlify.app
 - **API:** https://moodify-ia9v.onrender.com
+
 
 ## Tech Stack
 - **Backend:**  FastAPI (Python)
 - **AI:** Groq API · LLaMA 3 (mood interpretation + song generation)
 - **Music API:**  iTunes Search API (track data + 30s audio previews)
 - **Frontend:**  HTML · Tailwind CSS · JavaScript · Swiper.js
+
 
 ## Features
 - Mood-based search — type how you're feeling, hit enter or "Find My Song"
@@ -23,9 +27,12 @@ No algorithms. no "because you listened to this." just tell it how you're feelin
 - Album art display — each card shows the cover so you know the vibe before you hear it
 - Click-to-center — tap any card in the carousel and it snaps to the front
 
+
 ## How it Works
 Type your mood → LLaMA 3 reads the vibe → iTunes pulls the tracks → you get a card carousel to swipe through with previews.
 built with FastAPI · Groq/LLaMA 3 · iTunes Search API · HTML/Tailwind/JS
+
+
 
 ## How to Run Locally
  
@@ -58,6 +65,8 @@ in a second terminal.
 Then open `http://localhost:3000`
  
 ---
+
+
 ## Roadmap
  
 ### v2
